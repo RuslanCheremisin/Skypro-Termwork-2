@@ -60,7 +60,7 @@ public class ValidateUtil {
 //            return "Wrong date format! Please use DD.MM.YYYY format(dots, not commas)";
         }
     }
-    public static String validateTimeHHcolonMM(String time){
+    public static String validateTimeHHcolonmm(String time){
         Pattern p1 = Pattern.compile("\\d{2}+\\:{1}+\\d{2}");
         Pattern p2 = Pattern.compile("\\d{1}+\\:{1}+\\d{2}");
         Matcher m1 = p1.matcher(time);

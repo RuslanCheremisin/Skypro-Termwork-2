@@ -4,6 +4,7 @@ import Planner.TaskType;
 import Planner.TaskPeriodicity;
 
 import java.time.LocalDateTime;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Menu {
@@ -15,7 +16,7 @@ public class Menu {
     private static Scanner scanner = new Scanner(System.in);
 
     public static void mainMenu() {
-        int mainMenu;
+        String mainMenu;
         do {
             System.out.print("Выберите пункт меню:\n" +
                     "1. Добавить задачу\n" +
@@ -26,95 +27,118 @@ public class Menu {
                     "6. Показать все удалённые задачи в архиве\n" +
                     "0. Выход\n");
 
-            mainMenu = scanner.nextInt();
+            mainMenu = scanner.nextLine();
             switch (mainMenu) {
-                case 1:
+                case "1":
                     inputTask(scanner);
                     break;
-                case 2:
+                case "2":
                     editTaskById();
                     break;
-                case 3:
+                case "3":
                     removeTaskById();
                     break;
-                case 4:
+                case "4":
                     getTasksByDate();
                     break;
-                case 5:
+                case "5":
                     Planner.printActiveTasks();
                     break;
-                case 6:
+                case "6":
                     Planner.printDeletedTasks();
                     break;
-                case 0:
+                case "0":
                     break;
                 default:
                     System.out.println("Выберите опцию из предложенных!");
             }
-        } while (mainMenu != 0);
+        } while (!mainMenu.equals("0"));
     }
 
     private static void inputTask(Scanner scanner) {
         boolean taskIsDescribed = false;
-        String taskDateStr;
-        String taskTimeStr;
+        String taskDateStr = "";
+        String taskTimeStr = "";
         do {
             System.out.println("Введите название задачи:");
             taskName = scanner.nextLine();
-            taskName = scanner.nextLine();
-            System.out.println("Назначьте дату задачи (ДД.ММ.ГГГГ):");
-            taskDateStr = ValidateUtil.validateDateDDdotMMdotYYYY(scanner.nextLine());
-            System.out.println("Назначьте время задачи (ЧЧ:ММ):");
-            taskTimeStr = ValidateUtil.validateTimeHHcolonMM(scanner.nextLine());
+//            taskName = scanner.nextLine();
+            do {
+                System.out.println("Назначьте дату задачи (ДД.ММ.ГГГГ):");
+                try {
+                    taskDateStr = ValidateUtil.validateDateDDdotMMdotYYYY(scanner.nextLine());
+                    break;
+                } catch (IllegalArgumentException e) {
+                    System.out.println("Неправильный формат даты! Пожалуйста, используйте формат ДД.ММ.ГГГГ(точки)");
+                }
+            } while (!taskDateStr.equals(null));
+            do {
+                System.out.println("Назначьте время задачи (ЧЧ:ММ):");
+                try {
+                    taskTimeStr = ValidateUtil.validateTimeHHcolonmm(scanner.nextLine());
+                    break;
+                } catch (IllegalArgumentException e) {
+                    System.out.println("Неправильный формат времени! Пожалуйста, используйте формат ЧЧ:ММ(двоеточие)");
+                }
+            } while (!taskTimeStr.equals(null));
+
             taskDateTime = ValidateUtil.convertStringToDateTime(taskDateStr, taskTimeStr);
             System.out.println("Введите описание задачи:");
             taskDescription = scanner.nextLine();
-            System.out.print("Выберите тип задачи:\n" +
-                    "1. Личная\n" +
-                    "2. Рабочая\n" +
-                    "0. Выход\n");
-            int taskTypeMenu = scanner.nextInt();
-            switch (taskTypeMenu) {
-                case 1:
-                    taskType = TaskType.PERSONAL;
-                    break;
-                case 2:
-                    taskType = TaskType.WORK;
-                    break;
-                case 0:
-                    break;
-                default:
-                    System.out.println("Выберите опцию из предложенных!\n");
-            }
-            System.out.print("Выберите периодичность задачи:\n" +
-                    "1. Одиночная \n" +
-                    "2. Ежедневная \n" +
-                    "3. Еженедельная \n" +
-                    "4. Ежемесячная \n" +
-                    "5. Ежегодная \n" +
-                    "0. Выход\n");
-            int taskPeriodicityMenu = scanner.nextInt();
-            switch (taskPeriodicityMenu) {
-                case 1:
-                    taskPeriodicity = TaskPeriodicity.SINGLE;
-                    break;
-                case 2:
-                    taskPeriodicity = TaskPeriodicity.DAILY;
-                    break;
-                case 3:
-                    taskPeriodicity = TaskPeriodicity.WEEKLY;
-                    break;
-                case 4:
-                    taskPeriodicity = TaskPeriodicity.MONTHLY;
-                    break;
-                case 5:
-                    taskPeriodicity = TaskPeriodicity.ANNUAL;
-                    break;
-                case 0:
-                    break;
-                default:
-                    System.out.println("Выберите опцию из предложенных!\n");
-            }
+            String taskTypeMenu = "";
+            label:
+            do {
+                System.out.print("Выберите тип задачи:\n" +
+                        "1. Личная\n" +
+                        "2. Рабочая\n" +
+                        "0. Выход\n");
+                taskTypeMenu = scanner.nextLine();
+                switch (taskTypeMenu) {
+                    case "1":
+                        taskType = TaskType.PERSONAL;
+                        break label;
+                    case "2":
+                        taskType = TaskType.WORK;
+                        break label;
+                    case "0":
+                        break label;
+                    default:
+                        System.out.println("Выберите опцию из предложенных!\n");
+                }
+            } while (!taskTypeMenu.equals(null));
+            String taskPeriodicityMenu = "";
+            label1:
+            do {
+                System.out.print("Выберите периодичность задачи:\n" +
+                        "1. Одиночная \n" +
+                        "2. Ежедневная \n" +
+                        "3. Еженедельная \n" +
+                        "4. Ежемесячная \n" +
+                        "5. Ежегодная \n" +
+                        "0. Выход\n");
+                taskPeriodicityMenu = scanner.nextLine();
+                switch (taskPeriodicityMenu) {
+                    case "1":
+                        taskPeriodicity = TaskPeriodicity.SINGLE;
+                        break label1;
+                    case "2":
+                        taskPeriodicity = TaskPeriodicity.DAILY;
+                        break label1;
+                    case "3":
+                        taskPeriodicity = TaskPeriodicity.WEEKLY;
+                        break label1;
+                    case "4":
+                        taskPeriodicity = TaskPeriodicity.MONTHLY;
+                        break label1;
+                    case "5":
+                        taskPeriodicity = TaskPeriodicity.ANNUAL;
+                        break label1;
+                    case "0":
+                        break label1;
+                    default:
+                        System.out.println("Выберите опцию из предложенных!\n");
+                }
+            } while (!taskPeriodicityMenu.equals(null));
             Planner.addTask(taskName, taskDateTime, taskDescription, taskType, taskPeriodicity);
             taskIsDescribed = true;
         } while (taskIsDescribed = false);
@@ -123,26 +147,53 @@ public class Menu {
 
     private static void removeTaskById() {
         System.out.println("Введите ID(номер) задачи:");
-        int id = scanner.nextInt();
+        int id = 0;
+        try {
+            id = scanner.nextInt();
+        } catch (InputMismatchException e) {
+            System.out.println("Введите коректный ID задачи!");
+        }
         Planner.removeTaskById(id);
-
     }
 
     private static void editTaskById() {
         System.out.println("Введите ID(номер) задачи:");
-        int id = scanner.nextInt();
-        System.out.println("Введите новое название задачи:");
-        String newName = scanner.nextLine();
-        newName = scanner.nextLine();
-        System.out.println("Введите новое описание задачи:");
-        String newDescription = scanner.nextLine();
-        Planner.editTaskById(id, newName, newDescription);
-        System.out.println("Задача обновлена!");
+        String idStr = scanner.nextLine();
+        while (true){
+            try {
+                if (Planner.containsTaskById(Integer.parseInt(idStr))) {
+                    System.out.println("Введите новое название задачи:");
+                    String newName = scanner.nextLine();
+                    System.out.println("Введите новое описание задачи:");
+                    String newDescription = scanner.nextLine();
+                    Planner.editTaskById(Integer.parseInt(idStr), newName, newDescription);
+                    System.out.println("Задача обновлена!");
+                    return;
+
+                } else {
+                    System.out.println("Нет задачи с таким ID.");
+                    return;
+                }
+            }catch (NumberFormatException e){
+                System.out.println("Введите корректный ID");
+                return;
+            }
+
+        }
+
+
     }
 
     private static void getTasksByDate() {
-        System.out.print("Введите дату (ДД.ММ.ГГГГ):");
-        String date = scanner.next();
+        String date = null;
+        do {
+            System.out.print("Введите дату (ДД.ММ.ГГГГ):");
+            try {
+                date = ValidateUtil.validateDateDDdotMMdotYYYY(scanner.next());
+            } catch (IllegalArgumentException e) {
+                System.out.println("Неправильный формат даты! Пожалуйста, используйте формат ДД.ММ.ГГГГ(точки)");
+            }
+        } while (!date.equals(null));
         Planner.getTasksByDate(date);
     }
 

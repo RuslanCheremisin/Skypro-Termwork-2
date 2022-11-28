@@ -9,9 +9,18 @@ public class Planner {
 
     public static void addTask(String taskName, LocalDateTime taskDateTime, String taskDescription, TaskType taskType, TaskPeriodicity taskPeriodicity) {
         if (activeTasks.isEmpty()) {
-            activeTasks.put(1, new Task(taskName, taskDateTime, taskDescription, taskType, taskPeriodicity));
+            try {
+                activeTasks.put(1, new Task(taskName, taskDateTime, taskDescription, taskType, taskPeriodicity));
+            }catch (Exception e){
+                System.out.println("Некоторые поля не заполнены! Повторите создание задачи");
+            }
+
         }else{
-            activeTasks.put(activeTasks.size()+1, new Task(taskName, taskDateTime, taskDescription, taskType, taskPeriodicity));
+            try {
+                activeTasks.put(activeTasks.size()+1, new Task(taskName, taskDateTime, taskDescription, taskType, taskPeriodicity));
+            }catch (Exception e){
+                System.out.println("Некоторые поля не заполнены! Повторите создание задачи");
+            }
         }
     }
 
@@ -22,12 +31,17 @@ public class Planner {
             System.out.println("Нет такой задачи");
         }
     }
+    public static boolean containsTaskById(int id){
+        if (activeTasks.containsKey(id)) {
+            return true;
+        }else {
+            return false;
+        }
+    }
 
     public static void editTaskById(int id, String newName, String newDescription) {
-        if (activeTasks.containsKey(id)) {
             activeTasks.get(id).setName(newName);
             activeTasks.get(id).setDescription(newDescription);
-        }
     }
 
 
@@ -42,6 +56,7 @@ public class Planner {
     }
 
     public static void printActiveTasks() {
+
         for (Map.Entry<Integer, Task> entry: activeTasks.entrySet()) {
             if (!entry.getValue().isDeleted()){
                 System.out.print(entry.getKey()+": ");
