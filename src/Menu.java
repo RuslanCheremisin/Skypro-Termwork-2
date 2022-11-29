@@ -40,6 +40,7 @@ public class Menu {
                     break;
                 case "4":
                     getTasksByDate();
+                    scanner.nextLine();
                     break;
                 case "5":
                     Planner.printActiveTasks();

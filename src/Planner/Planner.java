@@ -59,12 +59,18 @@ public class Planner {
 
     public static void printActiveTasks() {
 
+        int activeTasksQty = 0;
         for (Map.Entry<Integer, Task> entry: activeTasks.entrySet()) {
             if (!entry.getValue().isDeleted()){
                 System.out.print(entry.getKey()+": ");
                 System.out.println(entry.getValue());
+                activeTasksQty++;
             }
         }
+        if (activeTasksQty == 0) {
+            System.out.println("В ежедневнике пусто... Добавьте задачу");
+        }
+
     }
 
     public static void printDeletedTasks() {
