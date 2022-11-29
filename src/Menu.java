@@ -147,54 +147,51 @@ public class Menu {
 
     private static void removeTaskById() {
         System.out.println("Введите ID(номер) задачи:");
-        int id = 0;
+        String idStr = scanner.nextLine();
         try {
-            id = scanner.nextInt();
-        } catch (InputMismatchException e) {
-            System.out.println("Введите коректный ID задачи!");
+            if (Planner.containsTaskById(Integer.parseInt(idStr))) {
+                Planner.removeTaskById(Integer.parseInt(idStr));
+                System.out.println("Задача переведена в архив!");
+            } else {
+                System.out.println("Нет задачи с таким ID.");
+            }
+        } catch (NumberFormatException e) {
+            System.out.println("Введите корректный ID");
         }
-        Planner.removeTaskById(id);
+
     }
 
     private static void editTaskById() {
         System.out.println("Введите ID(номер) задачи:");
         String idStr = scanner.nextLine();
-        while (true){
-            try {
-                if (Planner.containsTaskById(Integer.parseInt(idStr))) {
-                    System.out.println("Введите новое название задачи:");
-                    String newName = scanner.nextLine();
-                    System.out.println("Введите новое описание задачи:");
-                    String newDescription = scanner.nextLine();
-                    Planner.editTaskById(Integer.parseInt(idStr), newName, newDescription);
-                    System.out.println("Задача обновлена!");
-                    return;
+        try {
+            if (Planner.containsTaskById(Integer.parseInt(idStr))) {
+                System.out.println("Введите новое название задачи:");
+                String newName = scanner.nextLine();
+                System.out.println("Введите новое описание задачи:");
+                String newDescription = scanner.nextLine();
+                Planner.editTaskById(Integer.parseInt(idStr), newName, newDescription);
+                System.out.println("Задача обновлена!");
 
-                } else {
-                    System.out.println("Нет задачи с таким ID.");
-                    return;
-                }
-            }catch (NumberFormatException e){
-                System.out.println("Введите корректный ID");
-                return;
+            } else {
+                System.out.println("Нет задачи с таким ID.");
             }
 
+        } catch (NumberFormatException e) {
+            System.out.println("Введите корректный ID");
         }
-
-
     }
 
     private static void getTasksByDate() {
-        String date = null;
-        do {
-            System.out.print("Введите дату (ДД.ММ.ГГГГ):");
-            try {
-                date = ValidateUtil.validateDateDDdotMMdotYYYY(scanner.next());
-            } catch (IllegalArgumentException e) {
-                System.out.println("Неправильный формат даты! Пожалуйста, используйте формат ДД.ММ.ГГГГ(точки)");
-            }
-        } while (!date.equals(null));
-        Planner.getTasksByDate(date);
+        System.out.print("Введите дату (ДД.ММ.ГГГГ):");
+        String date = ValidateUtil.validateDateDDdotMMdotYYYY(scanner.next());
+        try {
+            Planner.getTasksByDate(date);
+        } catch (IllegalArgumentException e) {
+            System.out.println("Неправильный формат даты! Пожалуйста, используйте формат ДД.ММ.ГГГГ(точки)");
+        }
+
+
     }
 
 }

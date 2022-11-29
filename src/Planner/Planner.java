@@ -51,6 +51,8 @@ public class Planner {
             if (entry.getValue().appearsOn(ValidateUtil.convertStringToDate(date))) {
                 System.out.print(entry.getKey()+": ");
                 System.out.println(entry.getValue());
+            }else {
+                System.out.println("На эту дату задач нет");
             }
         }
     }
