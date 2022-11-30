@@ -25,12 +25,13 @@ public class Task {
         this.dateTimeOfExecution = dateTimeOfExecution;
     }
 
-    public boolean appearsOn(LocalDate localDate){
+    public boolean appearsOn(LocalDate localDate) {
         if (getDateTimeOfExecution().toLocalDate().isAfter(localDate)) {
             return false;
         }
         return appearsPeriodicallyOn(localDate);
     }
+
     public boolean appearsPeriodicallyOn(LocalDate localDate) {
         LocalDate taskDate = getDateTimeOfExecution().toLocalDate();
         switch (periodicity) {
@@ -41,14 +42,15 @@ public class Task {
             case WEEKLY:
                 return taskDate.isBefore(localDate.plusDays(1)) && taskDate.getDayOfWeek().equals(localDate.getDayOfWeek());
             case MONTHLY:
-                return taskDate.isBefore(localDate.plusDays(1)) && taskDate.getDayOfMonth()==localDate.getDayOfMonth();
+                return taskDate.isBefore(localDate.plusDays(1)) && taskDate.getDayOfMonth() == localDate.getDayOfMonth();
             case ANNUAL:
-                return taskDate.isBefore(localDate.plusDays(1)) && taskDate.getDayOfYear()==localDate.getDayOfYear();
+                return taskDate.isBefore(localDate.plusDays(1)) && taskDate.getDayOfYear() == localDate.getDayOfYear();
             default:
                 return false;
         }
 
     }
+
     boolean isDeleted() {
         return isDeleted;
     }
@@ -101,7 +103,13 @@ public class Task {
                 taskPeriodicityStr = "Ежегодная";
                 break;
         }
-        return name + "\n" + description + "\n" + taskTypeStr + "\n" + taskPeriodicityStr + "\n" + "Изначальная дата: "+dtf.format(dateTimeOfExecution) + "\n--------------------";
+        return name + "\n" +
+                description + "\n" +
+                taskTypeStr + "\n" +
+                taskPeriodicityStr + "\n" +
+                "Изначальная дата: " +
+                dtf.format(dateTimeOfExecution) +
+                "\n--------------------";
     }
 
     public int hashCode() {

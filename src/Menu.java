@@ -2,9 +2,7 @@ import Planner.ValidateUtil;
 import Planner.Planner;
 import Planner.TaskType;
 import Planner.TaskPeriodicity;
-
 import java.time.LocalDateTime;
-import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Menu {
@@ -23,8 +21,9 @@ public class Menu {
                     "2. Изменить задачу по ID\n" +
                     "3. Удалить задачу по ID\n" +
                     "4. Получить задачу на указанную дату\n" +
-                    "5. Показать все задачи в ежедневнике\n" +
-                    "6. Показать все удалённые задачи в архиве\n" +
+                    "5. Показать задачи, сгруппированные по датам первого исполнения\n"+
+                    "6. Показать все задачи в ежедневнике\n" +
+                    "7. Показать все удалённые задачи в архиве\n" +
                     "0. Выход\n");
 
             mainMenu = scanner.nextLine();
@@ -43,9 +42,12 @@ public class Menu {
                     scanner.nextLine();
                     break;
                 case "5":
-                    Planner.printActiveTasks();
+                    Planner.printTaskListsByDates();
                     break;
                 case "6":
+                    Planner.printActiveTasks();
+                    break;
+                case "7":
                     Planner.printDeletedTasks();
                     break;
                 case "0":
@@ -63,7 +65,6 @@ public class Menu {
         do {
             System.out.println("Введите название задачи:");
             taskName = scanner.nextLine();
-//            taskName = scanner.nextLine();
             do {
                 System.out.println("Назначьте дату задачи (ДД.ММ.ГГГГ):");
                 try {

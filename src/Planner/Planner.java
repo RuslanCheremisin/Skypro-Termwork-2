@@ -1,8 +1,9 @@
 package Planner;
-
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.Map;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
+import java.util.*;
 
 public class Planner {
     private static Map<Integer, Task> activeTasks = new HashMap<>();
@@ -55,6 +56,35 @@ public class Planner {
                 System.out.println("На эту дату задач нет");
             }
         }
+    }
+
+    public static void printTaskListsByDates(){
+        DateTimeFormatter dtf = DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT);
+        Map<LocalDate, List<Task>> taskListsByDates = new TreeMap<>();
+        for (Task task : activeTasks.values()) {
+            taskListsByDates.put(task.getDateTimeOfExecution().toLocalDate(), getTaskListByDate(task.getDateTimeOfExecution().toLocalDate()));
+        }
+        for (Map.Entry<LocalDate, List<Task>> entry : taskListsByDates.entrySet()) {
+            System.out.println(entry.getKey().format(dtf));
+            for (Task task: entry.getValue()
+                 ) {
+                System.out.println(task);
+            }
+            System.out.println("--------------------------");
+        }
+
+
+    }
+
+    private static List<Task> getTaskListByDate(LocalDate localDate){
+        List<Task> tasksByDate = new ArrayList<>();
+        for (Map.Entry<Integer, Task> entry : activeTasks.entrySet()){
+            if (localDate.equals(entry.getValue().getDateTimeOfExecution().toLocalDate())){
+                tasksByDate.add(entry.getValue());
+            }
+        }
+        Collections.sort(tasksByDate, Comparator.comparing(task -> task.getDateTimeOfExecution()));
+        return tasksByDate;
     }
 
     public static void printActiveTasks() {
