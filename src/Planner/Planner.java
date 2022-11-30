@@ -66,8 +66,7 @@ public class Planner {
         }
         for (Map.Entry<LocalDate, List<Task>> entry : taskListsByDates.entrySet()) {
             System.out.println(entry.getKey().format(dtf));
-            for (Task task: entry.getValue()
-                 ) {
+            for (Task task: entry.getValue()) {
                 System.out.println(task);
             }
             System.out.println("--------------------------");
