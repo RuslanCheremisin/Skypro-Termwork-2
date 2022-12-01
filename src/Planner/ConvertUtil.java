@@ -9,7 +9,7 @@ public class ConvertUtil {
     public static LocalDate convertStringToDate(String date) {
         int dayOfMonth = Integer.parseInt(date.substring(0, 2));
         int monthInt = Integer.parseInt(date.substring(3, 5));
-        Month month = Month.JANUARY;
+        Month month = null;
         int year = Integer.parseInt(date.substring(6));
         switch (monthInt) {
             case 1:
