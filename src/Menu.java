@@ -70,7 +70,7 @@ public class Menu {
         while (true) {
             System.out.println("Введите название задачи:");
             taskName = scanner.nextLine();
-            do {
+            while(true) {
                 System.out.println("Назначьте дату задачи (ДД.ММ.ГГГГ):");
                 try {
                     taskDateStr = ValidateUtil.validateDateDDdotMMdotYYYY(scanner.nextLine());
@@ -78,8 +78,8 @@ public class Menu {
                 } catch (IllegalArgumentException e) {
                     System.out.println("Неправильный формат даты! Пожалуйста, используйте формат ДД.ММ.ГГГГ(точки)");
                 }
-            } while (!taskDateStr.equals(null));
-            do {
+            }
+            while(true) {
                 System.out.println("Назначьте время задачи (ЧЧ:ММ):");
                 try {
                     taskTimeStr = ValidateUtil.validateTimeHHcolonmm(scanner.nextLine());
@@ -87,14 +87,14 @@ public class Menu {
                 } catch (IllegalArgumentException e) {
                     System.out.println("Неправильный формат времени! Пожалуйста, используйте формат ЧЧ:ММ(двоеточие)");
                 }
-            } while (!taskTimeStr.equals(null));
+            }
 
             taskDateTime = ValidateUtil.convertStringToDateTime(taskDateStr, taskTimeStr);
             System.out.println("Введите описание задачи:");
             taskDescription = scanner.nextLine();
             String taskTypeMenu = "";
             label:
-            do {
+            while(true) {
                 System.out.print("Выберите тип задачи:\n" +
                         "1. Личная\n" +
                         "2. Рабочая\n" +
@@ -112,7 +112,7 @@ public class Menu {
                     default:
                         System.out.println("Выберите опцию из предложенных!\n");
                 }
-            } while (!taskTypeMenu.equals(null));
+            }
             String taskPeriodicityMenu = "";
             label1:
             while(true) {
