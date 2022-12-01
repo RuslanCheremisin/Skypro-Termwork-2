@@ -110,7 +110,7 @@ public class Menu {
                     case "0":
                         break label;
                     default:
-                        System.out.println("Выберите опцию из предложенных!\n");
+                        System.out.println("Выберите опцию из предложенных!");
                 }
             }
             String taskPeriodicityMenu = "";
@@ -143,7 +143,7 @@ public class Menu {
                     case "0":
                         break label1;
                     default:
-                        System.out.println("Выберите опцию из предложенных!\n");
+                        System.out.println("Выберите опцию из предложенных!");
                 }
             }
             Planner.addTask(taskName, taskDateTime, taskDescription, taskType, taskPeriodicity);
@@ -180,7 +180,7 @@ public class Menu {
                 System.out.println("Задача обновлена!");
 
             } else {
-                System.out.println("Нет задачи с таким ID.");
+                System.out.println("Нет задачи с таким ID");
             }
 
         } catch (NumberFormatException e) {
