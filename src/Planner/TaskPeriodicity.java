@@ -5,7 +5,6 @@ public enum TaskPeriodicity {
     DAILY,
     WEEKLY,
     MONTHLY,
-    ANNUAL,
-    DELETED
+    ANNUAL
 
 }

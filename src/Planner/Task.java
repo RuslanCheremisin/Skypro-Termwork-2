@@ -1,5 +1,6 @@
 package Planner;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -25,14 +26,15 @@ public class Task {
         this.dateTimeOfExecution = dateTimeOfExecution;
     }
 
-    public boolean appearsOn(LocalDate localDate) {
+
+    boolean appearsOn(LocalDate localDate) {
         if (getDateTimeOfExecution().toLocalDate().isAfter(localDate)) {
             return false;
         }
         return appearsPeriodicallyOn(localDate);
     }
 
-    public boolean appearsPeriodicallyOn(LocalDate localDate) {
+    boolean appearsPeriodicallyOn(LocalDate localDate) {
         LocalDate taskDate = getDateTimeOfExecution().toLocalDate();
         switch (periodicity) {
             case SINGLE:
@@ -57,6 +59,10 @@ public class Task {
 
     TaskType getType() {
         return type;
+    }
+
+    String getName() {
+        return name;
     }
 
     LocalDateTime getDateTimeOfExecution() {
@@ -107,7 +113,7 @@ public class Task {
                 description + "\n" +
                 taskTypeStr + "\n" +
                 taskPeriodicityStr + "\n" +
-                "Изначальная дата: " +
+                "Первая дата выполнения: " +
                 dtf.format(dateTimeOfExecution) +
                 "\n--------------------";
     }

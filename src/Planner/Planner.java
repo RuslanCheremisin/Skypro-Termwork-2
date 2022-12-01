@@ -9,9 +9,14 @@ public class Planner {
     private static Map<Integer, Task> activeTasks = new HashMap<>();
 
     public static void addTask(String taskName, LocalDateTime taskDateTime, String taskDescription, TaskType taskType, TaskPeriodicity taskPeriodicity) {
+        DateTimeFormatter dtf = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT);
         if (activeTasks.isEmpty()) {
             try {
                 activeTasks.put(1, new Task(taskName, taskDateTime, taskDescription, taskType, taskPeriodicity));
+                if(activeTasks.get(1).getDateTimeOfExecution().isBefore(LocalDateTime.now())){
+                    activeTasks.get(1).setDeleted(true);
+                }
+                System.out.println("Задача "+taskName+" на "+taskDateTime.format(dtf)+" добавлена");
             }catch (Exception e){
                 System.out.println("Некоторые поля не заполнены! Повторите создание задачи");
             }
@@ -19,7 +24,11 @@ public class Planner {
         }else{
             try {
                 activeTasks.put(activeTasks.size()+1, new Task(taskName, taskDateTime, taskDescription, taskType, taskPeriodicity));
-            }catch (Exception e){
+                if(activeTasks.get(activeTasks.size()).getDateTimeOfExecution().isBefore(LocalDateTime.now())){
+                    activeTasks.get(activeTasks.size()).setDeleted(true);
+                }
+                System.out.println("Задача "+taskName+" на "+taskDateTime.format(dtf)+" добавлена");
+            }catch (IllegalArgumentException e){
                 System.out.println("Некоторые поля не заполнены! Повторите создание задачи");
             }
         }
@@ -28,6 +37,7 @@ public class Planner {
     public static void removeTaskById(int id) {
         if (activeTasks.containsKey(id)) {
             activeTasks.get(id).setDeleted(true);
+            System.out.println("Задача "+activeTasks.get(id).getName()+" переведена в архив!");
         }else {
             System.out.println("Нет такой задачи");
         }
@@ -67,7 +77,9 @@ public class Planner {
         for (Map.Entry<LocalDate, List<Task>> entry : taskListsByDates.entrySet()) {
             System.out.println(entry.getKey().format(dtf));
             for (Task task: entry.getValue()) {
-                System.out.println(task);
+                if(!task.isDeleted()){
+                    System.out.println(task);
+                }
             }
             System.out.println("--------------------------");
         }
@@ -82,7 +94,7 @@ public class Planner {
                 tasksByDate.add(entry.getValue());
             }
         }
-        Collections.sort(tasksByDate, Comparator.comparing(task -> task.getDateTimeOfExecution()));
+        tasksByDate.sort(Comparator.comparing(task -> task.getDateTimeOfExecution()));
         return tasksByDate;
     }
 
@@ -103,11 +115,15 @@ public class Planner {
     }
 
     public static void printDeletedTasks() {
+        int deletedTasksQty = 0;
         for (Map.Entry<Integer, Task> entry: activeTasks.entrySet()) {
             if (entry.getValue().isDeleted()){
                 System.out.print(entry.getKey()+": ");
                 System.out.println(entry.getValue());
             }
+        }
+        if (deletedTasksQty == 0) {
+            System.out.println("В архиве пусто...");
         }
     }
 }
