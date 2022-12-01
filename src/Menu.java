@@ -1,4 +1,5 @@
 import Planner.ValidateUtil;
+import Planner.ConvertUtil;
 import Planner.Planner;
 import Planner.TaskType;
 import Planner.TaskPeriodicity;
@@ -89,7 +90,7 @@ public class Menu {
                 }
             }
 
-            taskDateTime = ValidateUtil.convertStringToDateTime(taskDateStr, taskTimeStr);
+            taskDateTime = ConvertUtil.convertStringToDateTime(taskDateStr, taskTimeStr);
             System.out.println("Введите описание задачи:");
             taskDescription = scanner.nextLine();
             String taskTypeMenu = "";

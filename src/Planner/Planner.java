@@ -59,7 +59,7 @@ public class Planner {
 
     public static void getTasksByDate(String date) {
         for (Map.Entry<Integer, Task> entry: activeTasks.entrySet()){
-            if (entry.getValue().appearsOn(ValidateUtil.convertStringToDate(date))) {
+            if (entry.getValue().appearsOn(ConvertUtil.convertStringToDate(date))) {
                 System.out.print(entry.getKey()+": ");
                 System.out.println(entry.getValue());
             }else {
