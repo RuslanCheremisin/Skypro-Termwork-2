@@ -8,8 +8,6 @@ import java.time.LocalDateTime;
 import java.util.Scanner;
 
 public class Menu {
-//    private static TaskType taskType;
-//    private static TaskPeriodicity taskPeriodicity;
     private static final Scanner scanner = new Scanner(System.in);
 
     public static void mainMenu() {
