@@ -8,8 +8,8 @@ import java.time.LocalDateTime;
 import java.util.Scanner;
 
 public class Menu {
-    private static TaskType taskType;
-    private static TaskPeriodicity taskPeriodicity;
+//    private static TaskType taskType;
+//    private static TaskPeriodicity taskPeriodicity;
     private static final Scanner scanner = new Scanner(System.in);
 
     public static void mainMenu() {
@@ -92,6 +92,7 @@ public class Menu {
             System.out.println("Введите описание задачи:");
             String taskDescription = scanner.nextLine();
             String taskTypeMenu = "";
+            TaskType taskType = null;
             label:
             while (true) {
                 System.out.print("Выберите тип задачи:\n" +
@@ -113,6 +114,7 @@ public class Menu {
                 }
             }
             String taskPeriodicityMenu = "";
+            TaskPeriodicity taskPeriodicity = null;
             label1:
             while (true) {
                 System.out.print("Выберите периодичность задачи:\n" +
