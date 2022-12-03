@@ -3,13 +3,11 @@ import Planner.ConvertUtil;
 import Planner.Planner;
 import Planner.TaskType;
 import Planner.TaskPeriodicity;
+
 import java.time.LocalDateTime;
 import java.util.Scanner;
 
 public class Menu {
-    private static String taskName;
-    private static String taskDescription;
-    private static LocalDateTime taskDateTime;
     private static TaskType taskType;
     private static TaskPeriodicity taskPeriodicity;
     private static final Scanner scanner = new Scanner(System.in);
@@ -24,14 +22,14 @@ public class Menu {
         do {
             System.out.print(
                     "Выберите пункт меню:\n" +
-                    "1. Добавить задачу\n" +
-                    "2. Изменить задачу по ID\n" +
-                    "3. Удалить задачу по ID\n" +
-                    "4. Получить задачу на указанную дату\n" +
-                    "5. Показать задачи, сгруппированные по датам первого исполнения\n"+
-                    "6. Показать все задачи в ежедневнике\n" +
-                    "7. Показать все удалённые задачи в архиве\n" +
-                    "0. Выход\n");
+                            "1. Добавить задачу\n" +
+                            "2. Изменить задачу по ID\n" +
+                            "3. Удалить задачу по ID\n" +
+                            "4. Получить задачу на указанную дату\n" +
+                            "5. Показать задачи, сгруппированные по датам первого исполнения\n" +
+                            "6. Показать все задачи в ежедневнике\n" +
+                            "7. Показать все удалённые задачи в архиве\n" +
+                            "0. Выход\n");
 
             mainMenu = scanner.nextLine();
             switch (mainMenu) {
@@ -70,8 +68,8 @@ public class Menu {
         String taskTimeStr = "";
         while (true) {
             System.out.println("Введите название задачи:");
-            taskName = scanner.nextLine();
-            while(true) {
+            String taskName = scanner.nextLine();
+            while (true) {
                 System.out.println("Назначьте дату задачи (ДД.ММ.ГГГГ):");
                 try {
                     taskDateStr = ValidateUtil.validateDateDDdotMMdotYYYY(scanner.nextLine());
@@ -80,7 +78,7 @@ public class Menu {
                     System.out.println("Неправильный формат даты! Пожалуйста, используйте формат ДД.ММ.ГГГГ(точки)");
                 }
             }
-            while(true) {
+            while (true) {
                 System.out.println("Назначьте время задачи (ЧЧ:ММ):");
                 try {
                     taskTimeStr = ValidateUtil.validateTimeHHcolonmm(scanner.nextLine());
@@ -90,12 +88,12 @@ public class Menu {
                 }
             }
 
-            taskDateTime = ConvertUtil.convertStringToDateTime(taskDateStr, taskTimeStr);
+            LocalDateTime taskDateTime = ConvertUtil.convertStringToDateTime(taskDateStr, taskTimeStr);
             System.out.println("Введите описание задачи:");
-            taskDescription = scanner.nextLine();
+            String taskDescription = scanner.nextLine();
             String taskTypeMenu = "";
             label:
-            while(true) {
+            while (true) {
                 System.out.print("Выберите тип задачи:\n" +
                         "1. Личная\n" +
                         "2. Рабочая\n" +
@@ -116,7 +114,7 @@ public class Menu {
             }
             String taskPeriodicityMenu = "";
             label1:
-            while(true) {
+            while (true) {
                 System.out.print("Выберите периодичность задачи:\n" +
                         "1. Одиночная \n" +
                         "2. Ежедневная \n" +

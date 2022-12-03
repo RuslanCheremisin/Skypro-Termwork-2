@@ -1,4 +1,5 @@
 package Planner;
+
 import java.time.LocalDate;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -57,7 +58,8 @@ public class ValidateUtil {
 //            return "Wrong date format! Please use DD.MM.YYYY format(dots, not commas)";
         }
     }
-    public static String validateTimeHHcolonmm(String time){
+
+    public static String validateTimeHHcolonmm(String time) {
         Pattern p1 = Pattern.compile("\\d{2}+\\:{1}+\\d{2}");
         Pattern p2 = Pattern.compile("\\d{1}+\\:{1}+\\d{2}");
         Matcher m1 = p1.matcher(time);
@@ -66,16 +68,15 @@ public class ValidateUtil {
                 Integer.parseInt(time.substring(0, 2)) < 24 &&
                 Integer.parseInt(time.substring(0, 2)) >= 0 &&
                 Integer.parseInt(time.substring(3)) < 60 &&
-                Integer.parseInt(time.substring(3)) >= 0){
+                Integer.parseInt(time.substring(3)) >= 0) {
             return time;
-        }else if(m2.matches() &&
+        } else if (m2.matches() &&
                 Integer.parseInt(time.substring(0, 1)) < 10 &&
                 Integer.parseInt(time.substring(0, 1)) >= 0 &&
                 Integer.parseInt(time.substring(2)) < 60 &&
-                Integer.parseInt(time.substring(2)) >= 0){
+                Integer.parseInt(time.substring(2)) >= 0) {
             return time;
-        }
-        else {
+        } else {
             throw new IllegalArgumentException("Wrong time format! Please use HH:MM(H:MM) format(colon in between)");
 //            return "Wrong date format! Please use DD.MM.YYYY format(dots, not commas)";
         }
